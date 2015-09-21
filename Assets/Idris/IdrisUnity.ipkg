@@ -1,0 +1,6 @@
+package	IdrisUnity
+
+main = Main
+sourcedir = src
+executable = IdrisUnity.dll
+opts = "-p contrib -p cil --codegen cil"

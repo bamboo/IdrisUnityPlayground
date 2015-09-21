@@ -1,0 +1,7 @@
+/Library
+/Temp
+*.ibc
+*.ibc.meta
+*.il
+*.il.meta
+
