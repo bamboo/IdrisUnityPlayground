@@ -42,6 +42,7 @@ newborn cells = filter ((== 3) . liveNeighboursLength cells) (dead cells)
 
 tick : Cells -> Cells
 tick cells = surviving cells `merge` newborn cells
+
 gosperGun : Cells
 gosperGun =
   [(1,5),  (2,5),  (1,6),  (2,6),

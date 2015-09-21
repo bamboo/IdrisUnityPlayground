@@ -68,13 +68,11 @@ transform =
 
 Log : o -> CIL_IO ()
 Log obj =
-  invoke
-    (CILStatic (unityClass "Debug") "Log")
-    (Object -> CIL_IO ())
-    (believe_me obj)
+  invoke (CILStatic (unityClass "Debug") "Log")
+         (Object -> CIL_IO ())
+         (believe_me obj)
 
 deltaTime : CIL_IO Double
 deltaTime =
-  invoke
-    (CILStatic (unityClass "Time") "get_deltaTime")
-    (CIL_IO Double)
+  invoke (CILStatic (unityClass "Time") "get_deltaTime")
+         (CIL_IO Double)
