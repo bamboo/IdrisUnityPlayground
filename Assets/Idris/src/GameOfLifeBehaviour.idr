@@ -27,12 +27,12 @@ update prefab (MkGame model view) = do
   for_ view Destroy
   -- limit the size of the model
   -- otherwise stack overflow ensues
-  let model' = take 61 $ tick model
+  let model' = take 72 $ tick model
   return $ MkGame model' view'
 
 exports : FFI_Export FFI_CIL "GameOfLifeBehaviour" []
 exports =
   Data Game "Game" $
-  Fun start CILDefault $
-  Fun update CILDefault
+  Fun GameOfLifeBehaviour.start CILDefault $
+  Fun GameOfLifeBehaviour.update CILDefault
   End
