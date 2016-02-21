@@ -9,8 +9,8 @@ using System.Linq;
 public class IdrisPostprocessor : AssetPostprocessor {
 
 	static string Idris = HomePath ("code/idris/sandbox/bin/idris");
-	
-	static string IdrisCodegenCilPath = HomePath ("code/idris/idris-cil/dist/build/idris-codegen-cil");
+
+	static string IdrisCodegenCilPath = HomePath ("code/idris/idris-cil/codegen/dist/build/idris-codegen-cil");
 
 	static string IlasmPath = "/usr/local/bin";
 
