@@ -2,6 +2,8 @@ module GameOfLife
 
 %default total
 
+%access public
+
 Cell : Type
 Cell = (Int, Int)
 

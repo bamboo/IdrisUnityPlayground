@@ -2,6 +2,8 @@ module UnityEngine
 
 import public CIL.FFI
 
+%access public export
+
 unityStruct : String -> CILTy
 unityStruct typeName = CILTyVal "UnityEngine" ("UnityEngine." ++ typeName)
 
