@@ -8,9 +8,7 @@ using System.Linq;
 /// </summary>
 public class IdrisPostprocessor : AssetPostprocessor {
 
-	static string Idris = HomePath ("code/idris/sandbox/bin/idris");
-
-	static string IdrisCodegenCilPath = HomePath ("code/idris/idris-cil/codegen/dist/build/idris-codegen-cil");
+	static string Idris = HomePath (".local/bin/idris");
 
 	static string IlasmPath = "/usr/local/bin";
 
@@ -32,7 +30,6 @@ public class IdrisPostprocessor : AssetPostprocessor {
 		};
 		var envVars = processStartInfo.EnvironmentVariables;
 		envVars["PATH"] = envVars["PATH"]
-			+ Path.PathSeparator + IdrisCodegenCilPath
 			+ Path.PathSeparator + IlasmPath;
 
 		var idris = System.Diagnostics.Process.Start (processStartInfo);
@@ -43,7 +40,7 @@ public class IdrisPostprocessor : AssetPostprocessor {
 		} else
 			Debug.LogError ("Idris build failed:\n" + idris.StandardOutput.ReadToEnd () + idris.StandardError.ReadToEnd ());
 	}
-	
+
 	static string HomePath (string path) {
 		return Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), path);
 	}
