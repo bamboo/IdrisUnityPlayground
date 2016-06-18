@@ -2,7 +2,7 @@ module GameOfLife
 
 %default total
 
-%access public
+%access public export
 
 Cell : Type
 Cell = (Int, Int)
