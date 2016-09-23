@@ -8,50 +8,54 @@ using System.Linq;
 /// </summary>
 public class IdrisPostprocessor : AssetPostprocessor {
 
-	static string Idris = HomePath (".local/bin/idris");
+        static string IdrisPath = HomePath (".local/bin");
 
-	static string IlasmPath = "/usr/local/bin";
+        static string Idris = Path.Combine (IdrisPath, "idris");
 
-	static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths) {
+        static string IlasmPath = "/usr/local/bin";
 
-		if (!importedAssets.Concat(deletedAssets).Concat(movedAssets).Concat(movedFromAssetPaths).Any (IsIdrisFile))
-			return;
+        static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths) {
 
-		Debug.Log ("Starting Idris build");
+                if (!importedAssets.Concat(deletedAssets).Concat(movedAssets).Concat(movedFromAssetPaths).Any (IsIdrisFile))
+                        return;
 
-		var packagePath = IdrisPackagePath ();
-		var processStartInfo = new System.Diagnostics.ProcessStartInfo {
-			FileName = Idris,
-			Arguments = "--build " + packagePath,
-			WorkingDirectory = Path.GetDirectoryName (packagePath),
-			RedirectStandardOutput = true,
-			RedirectStandardError = true,
-			UseShellExecute = false,
-		};
-		var envVars = processStartInfo.EnvironmentVariables;
-		envVars["PATH"] = envVars["PATH"]
-			+ Path.PathSeparator + IlasmPath;
+                Debug.Log ("Starting Idris build");
 
-		var idris = System.Diagnostics.Process.Start (processStartInfo);
-		idris.WaitForExit ();
-		if (idris.ExitCode == 0) {
-			Debug.Log ("Idris build successful.");
-			AssetDatabase.ImportAsset ("Assets/Idris/IdrisUnity.dll");
-		} else
-			Debug.LogError ("Idris build failed:\n" + idris.StandardOutput.ReadToEnd () + idris.StandardError.ReadToEnd ());
-	}
+                var packagePath = IdrisPackagePath ();
+                var processStartInfo = new System.Diagnostics.ProcessStartInfo {
+                        FileName = Idris,
+                        Arguments = "--build " + packagePath,
+                        WorkingDirectory = Path.GetDirectoryName (packagePath),
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                };
+                var envVars = processStartInfo.EnvironmentVariables;
+                envVars["PATH"] = envVars["PATH"]
+                        + Path.PathSeparator + IdrisPath
+                        + Path.PathSeparator + IlasmPath;
 
-	static string HomePath (string path) {
-		return Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), path);
-	}
+                var idris = System.Diagnostics.Process.Start (processStartInfo);
+                idris.WaitForExit ();
+                Debug.Log (idris.StandardOutput.ReadToEnd () + idris.StandardError.ReadToEnd ());
+                if (idris.ExitCode == 0) {
+                        Debug.Log ("Idris build successful.");
+                        AssetDatabase.ImportAsset ("Assets/Idris/IdrisUnity.dll");
+                } else
+                        Debug.LogError ("Idris build failed!");
+        }
 
-	static string IdrisPackagePath () {
-		return Path.Combine (Application.dataPath, "Idris/IdrisUnity.ipkg");
-	}
+        static string HomePath (string path) {
+                return Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), path);
+        }
 
-	static bool IsIdrisFile (string f) {
-		var ext = Path.GetExtension (f);
-		return ext.CompareTo (".idr") == 0
-			|| ext.CompareTo (".ipkg") == 0;
-	}
+        static string IdrisPackagePath () {
+                return Path.Combine (Application.dataPath, "Idris/IdrisUnity.ipkg");
+        }
+
+        static bool IsIdrisFile (string f) {
+                var ext = Path.GetExtension (f);
+                return ext.CompareTo (".idr") == 0
+                        || ext.CompareTo (".ipkg") == 0;
+        }
 }
