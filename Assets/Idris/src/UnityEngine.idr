@@ -2,6 +2,7 @@ module UnityEngine
 
 import public CIL.FFI
 import public CIL.FFI.Array
+import public CIL.FFI.Single
 
 %access public export
 
@@ -17,8 +18,8 @@ Vector2Ty = unityStruct "Vector2"
 Vector2 : Type
 Vector2 = CIL Vector2Ty
 
-vec2 : Float -> Float -> CIL_IO Vector2
-vec2 = new (Float -> Float -> CIL_IO Vector2)
+vec2 : Single -> Single -> CIL_IO Vector2
+vec2 = new (Single -> Single -> CIL_IO Vector2)
 
 Vector2Array : Type
 Vector2Array = TypedArrayOf Vector2Ty
@@ -29,8 +30,8 @@ Vector3Ty = unityStruct "Vector3"
 Vector3 : Type
 Vector3 = CIL Vector3Ty
 
-vec3 : Float -> Float -> Float -> CIL_IO Vector3
-vec3 = new (Float -> Float -> Float -> CIL_IO Vector3)
+vec3 : Single -> Single -> Single -> CIL_IO Vector3
+vec3 = new (Single -> Single -> Single -> CIL_IO Vector3)
 
 Vector3Array : Type
 Vector3Array = TypedArrayOf Vector3Ty
@@ -146,10 +147,10 @@ identity =
   invoke (CILStatic QuaternionTy "get_identity")
          (CIL_IO Quaternion)
 
-RotateAround : Transform -> (origin : Vector3) -> (axis : Vector3) -> (angle : Double) -> CIL_IO ()
+RotateAround : Transform -> (origin : Vector3) -> (axis : Vector3) -> (angle : Single) -> CIL_IO ()
 RotateAround =
   invoke (CILInstance "RotateAround")
-         (Transform -> Vector3 -> Vector3 -> Double -> CIL_IO ())
+         (Transform -> Vector3 -> Vector3 -> Single -> CIL_IO ())
 
 transform : GameObject -> CIL_IO Transform
 transform =
@@ -162,12 +163,12 @@ Log obj =
          (Object -> CIL_IO ())
          (believe_me obj)
 
-deltaTime : CIL_IO Double
+deltaTime : CIL_IO Single
 deltaTime =
   invoke (CILStatic (unityClass "Time") "get_deltaTime")
-         (CIL_IO Double)
+         (CIL_IO Single)
 
 namespace Mathf
 
-  Sqrt : Float -> CIL_IO Float
-  Sqrt = invoke (CILStatic (unityStruct "Mathf") "Sqrt") (Float -> CIL_IO Float)
+  Sqrt : Single -> CIL_IO Single
+  Sqrt = invoke (CILStatic (unityStruct "Mathf") "Sqrt") (Single -> CIL_IO Single)

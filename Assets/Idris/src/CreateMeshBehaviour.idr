@@ -19,8 +19,8 @@ vertices : CIL_IO Vector3Array
 vertices = do
   p0 <- vec3 0 0 0
   p1 <- vec3 1 0 0
-  p2 <- vec3 0.5 0 !(Sqrt 0.75)
-  p3 <- vec3 0.5 !(Sqrt 0.75) (!(Sqrt 0.75) / 3)
+  p2 <- vec3 (cast 0.5) 0 !(Sqrt $ cast 0.75)
+  p3 <- vec3 (cast 0.5) !(Sqrt $ cast 0.75) (!(Sqrt $ cast 0.75) / 3)
   arrayOf Vector3Ty [ p0, p1, p2
                     , p0, p2, p3
                     , p2, p1, p3
@@ -35,11 +35,11 @@ triangles =
 
 uv : CIL_IO Vector2Array
 uv = do
-  uv1  <- vec2 0.5 0
-  uv0  <- vec2 0.25 (!(Sqrt 0.75) / 2)
-  uv2  <- vec2 0.75 (!(Sqrt 0.75) / 2)
+  uv1  <- vec2 (cast 0.5) 0
+  uv0  <- vec2 (cast 0.25) (!(Sqrt $ cast 0.75) / 2)
+  uv2  <- vec2 (cast 0.75) (!(Sqrt $ cast 0.75) / 2)
   uv3a <- vec2 0 0
-  uv3b <- vec2 0.5  !(Sqrt 0.75)
+  uv3b <- vec2 (cast 0.5)  !(Sqrt $ cast 0.75)
   uv3c <- vec2 1 0
   arrayOf Vector2Ty [ uv0, uv1, uv2
                     , uv0, uv2, uv3b
@@ -67,7 +67,7 @@ Start go = do
 Update : GameObject -> CIL_IO ()
 Update go = do
   origin <- vec3 0 0 0
-  axis   <- vec3 0.5 0.5 0.5
+  axis   <- vec3 (cast 0.5) (cast 0.5) (cast 0.5)
   RotateAround !(transform go) origin axis (180 * !deltaTime)
 
 exports : FFI_Export FFI_CIL "CreateMeshBehaviour" []
